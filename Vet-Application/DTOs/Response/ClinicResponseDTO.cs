@@ -9,7 +9,8 @@ namespace Vet_Application.DTOs.Response
         public required string Name { get; set; }
         public required string Phone { get; set; }
         public required string Email { get; set; }
-        public required string Address { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
         public string? UrlLogo { get; set; }
     }
 }
