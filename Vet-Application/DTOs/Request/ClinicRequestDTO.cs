@@ -17,6 +17,6 @@ namespace Vet_Application.DTOs.Request
         public double Lat { get; set; }
         [Range(-180, 180)]
         public double Lng { get; set; }
-        public IFormFile? UrlLogo { get; set; }
+        public IFormFile? UrlImage { get; set; }
     }
 }

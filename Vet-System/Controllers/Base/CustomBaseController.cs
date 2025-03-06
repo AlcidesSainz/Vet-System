@@ -56,6 +56,27 @@ namespace Vet_System.Controllers.Base
             }
             return entity;
         }
+        //Get by id with include
+        protected async Task<ActionResult<TDTO>> Get<TEntity, TDTO>(
+            int id,
+            Func<IQueryable<TEntity>, IQueryable<TEntity>> include = null)
+            where TEntity : class, IId
+            where TDTO : IId
+        {
+            var query = applicationDbContext.Set<TEntity>().AsQueryable();
+
+            // Aplica los includes si se proporcionan
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            var entity = await query
+                .ProjectTo<TDTO>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return entity is null ? NotFound() : entity;
+        }
         //Post
         protected async Task<IActionResult> Post<TRequestDTO, TEntity, TDTO>(TRequestDTO requestDTO, string pathName)
             where TEntity : class, IId
@@ -123,7 +144,7 @@ namespace Vet_System.Controllers.Base
             var file = getFileFunc(updateRequestDTO);
             if (file is not null)
             {
-                var url = await fileStorage.Edit(containerName, file, entityExist.UrlLogo);
+                var url = await fileStorage.Edit(containerName, file, entityExist.UrlImage);
                 SetFileUrl(entity, url);
             }
             applicationDbContext.Update(entity);
@@ -147,7 +168,7 @@ namespace Vet_System.Controllers.Base
         private void SetFileUrl<TEntity>(TEntity entity, string url)
             where TEntity : class
         {
-            var property = entity.GetType().GetProperty("UrlLogo");
+            var property = entity.GetType().GetProperty("UrlImage");
             if (property is not null)
             {
                 property.SetValue(entity, url);

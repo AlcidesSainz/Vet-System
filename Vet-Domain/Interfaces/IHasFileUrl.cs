@@ -2,6 +2,6 @@
 {
     public interface IHasFileUrl
     {
-        string UrlLogo { get; set; }
+        string UrlImage { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace Vet_Application.DTOs.Response
         public required string Email { get; set; }
         public double Lat { get; set; }
         public double Lng { get; set; }
-        public string? UrlLogo { get; set; }
+        public string? UrlImage { get; set; }
+        public List<VeterinarianResponseDTO> Veterinarians { get; set; } = new();
     }
 }
