@@ -14,9 +14,10 @@ namespace Vet_Application.DTOs.Request
         [StringLength(100)]
         [EmailAddress]
         public required string Email { get; set; }
-        [Required(ErrorMessage = "The field {0} is required")]
-        [StringLength(100, ErrorMessage = "The {0} must have {1} characters or less")]
-        public required string Address { get; set; }
+        [Range(-90, 90)]
+        public double Lat { get; set; }
+        [Range(-180, 180)]
+        public double Lng { get; set; }
         public IFormFile? UrlLogo { get; set; }
     }
 }
