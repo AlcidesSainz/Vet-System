@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Vet_System.Model;
-using Vet_System.Services.Implementation;
-using Vet_System.Services.Interfaces;
+using Vet_Application.Mapper;
+using Vet_Infrastructure.Data;
+using Vet_Infrastructure.Services.Implementation;
+using Vet_Infrastructure.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+
 builder.Services.AddDbContext<ApplicationDbContext>(options=>options.UseSqlServer("name=DefaultConnection"));
 
 builder.Services.AddOutputCache(options =>
@@ -27,8 +29,8 @@ builder.Services.AddCors(options =>
      });
 });
 
-builder.Services.AddTransient<IFileStorage, LocalFileStorage>();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<IFileStorage,FileStorage>();
+builder.Services.AddHttpContextAccessor(); 
 
 var app = builder.Build();
 

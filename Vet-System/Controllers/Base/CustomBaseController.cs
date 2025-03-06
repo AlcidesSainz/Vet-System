@@ -4,11 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Vet_System.Model;
+using Vet_Application.Utilities;
+using Vet_Domain.Interfaces;
+using Vet_Infrastructure.Data;
+using Vet_Infrastructure.Services.Interfaces;
 using Vet_System.Services.DTOs.Response;
 using Vet_System.Services.Interfaces;
-using Vet_System.Utilities;
 
+
+#pragma warning disable IDE0290 // Use primary constructor
 namespace Vet_System.Controllers.Base
 {
     public class CustomBaseController : ControllerBase
@@ -32,7 +36,7 @@ namespace Vet_System.Controllers.Base
             where TEntity : class
         {
             var queryable = applicationDbContext.Set<TEntity>().AsQueryable();
-            await HttpContext.AddPaginationHeader(queryable);
+            await HttpContextExtensions.AddPaginationHeader(HttpContext, queryable);
             return await queryable
                 .OrderBy(orderBy)
                 .Paginate(paginationResponseDTO)
@@ -119,7 +123,7 @@ namespace Vet_System.Controllers.Base
             var file = getFileFunc(updateRequestDTO);
             if (file is not null)
             {
-                var url = await fileStorage.Edit(containerName, file, entityExist.Logo);
+                var url = await fileStorage.Edit(containerName, file, entityExist.UrlLogo);
                 SetFileUrl(entity, url);
             }
             applicationDbContext.Update(entity);
@@ -143,7 +147,7 @@ namespace Vet_System.Controllers.Base
         private void SetFileUrl<TEntity>(TEntity entity, string url)
             where TEntity : class
         {
-            var property = entity.GetType().GetProperty("Logo");
+            var property = entity.GetType().GetProperty("UrlLogo");
             if (property is not null)
             {
                 property.SetValue(entity, url);

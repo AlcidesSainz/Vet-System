@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Vet_Application.DTOs.Request;
+using Vet_Application.DTOs.Response;
+using Vet_Domain.Entities;
+using Vet_Infrastructure.Data;
+using Vet_Infrastructure.Services.Interfaces;
 using Vet_System.Controllers.Base;
-using Vet_System.Model;
-using Vet_System.Model.Entities;
-using Vet_System.Services.DTOs.Request;
 using Vet_System.Services.DTOs.Response;
-using Vet_System.Services.Interfaces;
 
+#pragma warning disable IDE0290 // Use primary constructor
 namespace Vet_System.Controllers
 {
     [ApiController]
@@ -47,12 +49,12 @@ namespace Vet_System.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] ClinicRequestDTO clinicRequestDTO)
         {
-            return await PostWithImage<ClinicRequestDTO, Clinic, ClinicResponseDTO>(clinicRequestDTO, dto => dto.Logo, container, "GetClinicById");
+            return await PostWithImage<ClinicRequestDTO, Clinic, ClinicResponseDTO>(clinicRequestDTO, dto => dto.UrlLogo, container, "GetClinicById");
         }
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Put([FromForm] ClinicUpdateRequestDTO clinicUpdateRequestDTO)
+        public async Task<IActionResult> Put(int id,[FromForm] ClinicUpdateRequestDTO clinicUpdateRequestDTO)
         {
-            return await PutWithImage<ClinicUpdateRequestDTO, Clinic>(clinicUpdateRequestDTO.Id, clinicUpdateRequestDTO, dto => dto.Logo, container);
+            return await PutWithImage<ClinicUpdateRequestDTO, Clinic>(id, clinicUpdateRequestDTO, dto => dto.UrlLogo, container);
         }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
