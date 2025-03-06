@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Vet_Infrastructure.Data;
@@ -12,9 +13,11 @@ using Vet_Infrastructure.Data;
 namespace Vet_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250306201126_VeteriansAndOtherTablesCreated")]
+    partial class VeteriansAndOtherTablesCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,7 +63,7 @@ namespace Vet_Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[Phone] IS NOT NULL");
 
-                    b.ToTable("Clinics", (string)null);
+                    b.ToTable("Clinics");
                 });
 
             modelBuilder.Entity("Vet_Domain.Entities.ClinicVeterinarian", b =>
@@ -75,7 +78,7 @@ namespace Vet_Infrastructure.Migrations
 
                     b.HasIndex("ClinicId");
 
-                    b.ToTable("ClinicVeterinarians", (string)null);
+                    b.ToTable("ClinicVeterinarians");
                 });
 
             modelBuilder.Entity("Vet_Domain.Entities.Veterinarian", b =>
@@ -122,7 +125,7 @@ namespace Vet_Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[Phone] IS NOT NULL");
 
-                    b.ToTable("Veterinarians", (string)null);
+                    b.ToTable("Veterinarians");
                 });
 
             modelBuilder.Entity("Vet_Domain.Entities.ClinicVeterinarian", b =>

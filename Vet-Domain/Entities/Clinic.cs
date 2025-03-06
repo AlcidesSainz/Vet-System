@@ -17,10 +17,11 @@ namespace Vet_Domain.Entities
         [StringLength(100)]
         [EmailAddress]
         public required string Email { get; set; }
-       
+
         public required Point Location { get; set; }
 
         [Unicode(false)]
-        public string UrlLogo { get; set; }
-    }
+        public string UrlImage { get; set; }
+        public List<ClinicVeterinarian> ClinicVeterinarians { get; set; } = new List<ClinicVeterinarian>();
+}
 }
