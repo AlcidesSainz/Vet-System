@@ -1,29 +1,33 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using NetTopologySuite.Geometries;
 
 #nullable disable
 
 namespace Vet_Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class VeteriansAndOtherTablesCreated : Migration
+    public partial class _01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "UrlLogo",
-                table: "Clinics",
-                newName: "UrlImage");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Phone",
-                table: "Clinics",
-                type: "nvarchar(450)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldNullable: true);
+            migrationBuilder.CreateTable(
+                name: "Clinics",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Location = table.Column<Point>(type: "geography", nullable: true),
+                    UrlImage = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clinics", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Veterinarians",
@@ -47,12 +51,14 @@ namespace Vet_Infrastructure.Migrations
                 name: "ClinicVeterinarians",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ClinicId = table.Column<int>(type: "int", nullable: false),
                     VeterinarianId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClinicVeterinarians", x => new { x.VeterinarianId, x.ClinicId });
+                    table.PrimaryKey("PK_ClinicVeterinarians", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClinicVeterinarians_Clinics_ClinicId",
                         column: x => x.ClinicId,
@@ -87,6 +93,11 @@ namespace Vet_Infrastructure.Migrations
                 column: "ClinicId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClinicVeterinarians_VeterinarianId",
+                table: "ClinicVeterinarians",
+                column: "VeterinarianId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Veterinarians_Email",
                 table: "Veterinarians",
                 column: "Email",
@@ -114,29 +125,10 @@ namespace Vet_Infrastructure.Migrations
                 name: "ClinicVeterinarians");
 
             migrationBuilder.DropTable(
+                name: "Clinics");
+
+            migrationBuilder.DropTable(
                 name: "Veterinarians");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Clinics_Email",
-                table: "Clinics");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Clinics_Phone",
-                table: "Clinics");
-
-            migrationBuilder.RenameColumn(
-                name: "UrlImage",
-                table: "Clinics",
-                newName: "UrlLogo");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Phone",
-                table: "Clinics",
-                type: "nvarchar(max)",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(450)",
-                oldNullable: true);
         }
     }
 }

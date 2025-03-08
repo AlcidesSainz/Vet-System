@@ -13,8 +13,8 @@ using Vet_Infrastructure.Data;
 namespace Vet_Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250306201126_VeteriansAndOtherTablesCreated")]
-    partial class VeteriansAndOtherTablesCreated
+    [Migration("20250308190757_01")]
+    partial class _01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,15 +68,23 @@ namespace Vet_Infrastructure.Migrations
 
             modelBuilder.Entity("Vet_Domain.Entities.ClinicVeterinarian", b =>
                 {
-                    b.Property<int>("VeterinarianId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClinicId")
                         .HasColumnType("int");
 
-                    b.HasKey("VeterinarianId", "ClinicId");
+                    b.Property<int>("VeterinarianId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ClinicId");
+
+                    b.HasIndex("VeterinarianId");
 
                     b.ToTable("ClinicVeterinarians");
                 });
@@ -137,7 +145,7 @@ namespace Vet_Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Vet_Domain.Entities.Veterinarian", "Veterinarian")
-                        .WithMany()
+                        .WithMany("ClinicVeterinarians")
                         .HasForeignKey("VeterinarianId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -148,6 +156,11 @@ namespace Vet_Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Vet_Domain.Entities.Clinic", b =>
+                {
+                    b.Navigation("ClinicVeterinarians");
+                });
+
+            modelBuilder.Entity("Vet_Domain.Entities.Veterinarian", b =>
                 {
                     b.Navigation("ClinicVeterinarians");
                 });

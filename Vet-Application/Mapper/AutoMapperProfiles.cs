@@ -13,8 +13,20 @@ namespace Vet_Application.Mapper
         {
             ConfigureMappingClinic(geometryFactory);
             ConfigureMappingVeterinarian();
+            ConfigureMappingClinicVeterinarian(geometryFactory);
         }
+        #region ConfigureMappingClinicVeterinarian
+        private void ConfigureMappingClinicVeterinarian(GeometryFactory geometryFactory)
+        {
+            CreateMap<ClinicVeterinarian, ClinicVeterinarianResponseDTO>()
+                .ForMember(dest => dest.Clinic, opt => opt.MapFrom(src => src.Clinic))
+                .ForMember(desst => desst.Veterinarian, opt => opt.MapFrom(src => src.Veterinarian));
+            CreateMap<ClinicVeterinarianRequestDTO, ClinicVeterinarian>();
+            CreateMap<ClinicVeterinarianUpdateRequestDTO, ClinicVeterinarian>();
+        }
+        #endregion
 
+        #region ConfigureMappingVeterinarian
         private void ConfigureMappingVeterinarian()
         {
             CreateMap<VeterinarianRequestDTO, Veterinarian>()
@@ -24,7 +36,9 @@ namespace Vet_Application.Mapper
             CreateMap<Veterinarian, VeterinarianResponseDTO>();
             CreateMap<VeterinarianResponseDTO, Veterinarian>();
         }
+        #endregion
 
+        #region ConfigureMappingClinic
         private void ConfigureMappingClinic(GeometryFactory geometryFactory)
         {
             CreateMap<ClinicRequestDTO, Clinic>()
@@ -35,8 +49,11 @@ namespace Vet_Application.Mapper
             CreateMap<Clinic, ClinicResponseDTO>()
                 .ForMember(x => x.Lat, clinic => clinic.MapFrom(p => p.Location.Y))
                 .ForMember(x => x.Lng, clinic => clinic.MapFrom(p => p.Location.X))
-                .ForMember(dest=>dest.Veterinarians,opt=>opt.MapFrom(src=>src.ClinicVeterinarians.Select(cv=>cv.Veterinarian)));
+                .ForMember(dest => dest.Veterinarians, opt => opt.MapFrom(src => src.ClinicVeterinarians.Select(cv => cv.Veterinarian)));
             CreateMap<ClinicResponseDTO, Clinic>();
         }
+        #endregion
+
+
     }
 }

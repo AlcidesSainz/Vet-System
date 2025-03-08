@@ -20,7 +20,7 @@ namespace Vet_System.Controllers
         private readonly IMapper mapper;
         private readonly IOutputCacheStore outputCacheStore;
         private const string cacheTag = "veterinarian";
-        private readonly string container = "clinic";
+        private readonly string container = "veterinarian";
 
         public VeterinarianController(ApplicationDbContext applicationDbContext, IMapper mapper, IOutputCacheStore outputCacheStore, IFileStorage fileStorage)
             : base(applicationDbContext, mapper, outputCacheStore, cacheTag, fileStorage)

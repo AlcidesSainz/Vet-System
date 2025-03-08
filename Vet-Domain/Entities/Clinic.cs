@@ -2,7 +2,7 @@
 using NetTopologySuite.Geometries;
 using System.ComponentModel.DataAnnotations;
 using Vet_Domain.Interfaces;
-using Vet_System.Services.Interfaces;
+
 
 namespace Vet_Domain.Entities
 {

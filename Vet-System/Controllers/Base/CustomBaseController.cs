@@ -9,7 +9,6 @@ using Vet_Domain.Interfaces;
 using Vet_Infrastructure.Data;
 using Vet_Infrastructure.Services.Interfaces;
 using Vet_System.Services.DTOs.Response;
-using Vet_System.Services.Interfaces;
 
 
 #pragma warning disable IDE0290 // Use primary constructor
@@ -65,7 +64,6 @@ namespace Vet_System.Controllers.Base
         {
             var query = applicationDbContext.Set<TEntity>().AsQueryable();
 
-            // Aplica los includes si se proporcionan
             if (include != null)
             {
                 query = include(query);

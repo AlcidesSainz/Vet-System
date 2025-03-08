@@ -15,7 +15,6 @@ namespace Vet_System.Controllers
 {
     [ApiController]
     [Route("api/clinic")]
-    [OutputCache]
     public class ClinicController : CustomBaseController
     {
         private readonly IOutputCacheStore outputCacheStore;
