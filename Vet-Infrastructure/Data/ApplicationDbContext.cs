@@ -36,8 +36,6 @@ namespace Vet_Infrastructure.Data
 
             #region ClinicVeterinarian
             modelBuilder.Entity<ClinicVeterinarian>()
-                .HasKey(e => new { e.VeterinarianId, e.ClinicId });
-            modelBuilder.Entity<ClinicVeterinarian>()
                 .HasOne(cv => cv.Clinic)
                 .WithMany(c => c.ClinicVeterinarians)
                 .HasForeignKey(cv => cv.ClinicId);

@@ -1,4 +1,4 @@
-﻿namespace Vet_System.Services.Interfaces
+﻿namespace Vet_Domain.Interfaces
 {
     public interface IId
     {

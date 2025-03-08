@@ -1,5 +1,4 @@
 ﻿using Vet_Domain.Interfaces;
-using Vet_System.Services.Interfaces;
 
 namespace Vet_Application.DTOs.Response
 {

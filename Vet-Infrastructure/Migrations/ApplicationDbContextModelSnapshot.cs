@@ -60,22 +60,30 @@ namespace Vet_Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[Phone] IS NOT NULL");
 
-                    b.ToTable("Clinics", (string)null);
+                    b.ToTable("Clinics");
                 });
 
             modelBuilder.Entity("Vet_Domain.Entities.ClinicVeterinarian", b =>
                 {
-                    b.Property<int>("VeterinarianId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClinicId")
                         .HasColumnType("int");
 
-                    b.HasKey("VeterinarianId", "ClinicId");
+                    b.Property<int>("VeterinarianId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ClinicId");
 
-                    b.ToTable("ClinicVeterinarians", (string)null);
+                    b.HasIndex("VeterinarianId");
+
+                    b.ToTable("ClinicVeterinarians");
                 });
 
             modelBuilder.Entity("Vet_Domain.Entities.Veterinarian", b =>
@@ -122,7 +130,7 @@ namespace Vet_Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[Phone] IS NOT NULL");
 
-                    b.ToTable("Veterinarians", (string)null);
+                    b.ToTable("Veterinarians");
                 });
 
             modelBuilder.Entity("Vet_Domain.Entities.ClinicVeterinarian", b =>
@@ -134,7 +142,7 @@ namespace Vet_Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Vet_Domain.Entities.Veterinarian", "Veterinarian")
-                        .WithMany()
+                        .WithMany("ClinicVeterinarians")
                         .HasForeignKey("VeterinarianId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -145,6 +153,11 @@ namespace Vet_Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Vet_Domain.Entities.Clinic", b =>
+                {
+                    b.Navigation("ClinicVeterinarians");
+                });
+
+            modelBuilder.Entity("Vet_Domain.Entities.Veterinarian", b =>
                 {
                     b.Navigation("ClinicVeterinarians");
                 });

@@ -1,9 +1,8 @@
 ﻿using Vet_Domain.Interfaces;
-using Vet_System.Services.Interfaces;
 
 namespace Vet_Application.DTOs.Response
 {
-    public class VeterinarianResponseDTO : IId,IHasFileUrl
+    public class VeterinarianResponseDTO : IId, IHasFileUrl
     {
         public int Id { get; set; }
         public string? Name { get; set; }
