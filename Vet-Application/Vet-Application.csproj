@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vet-Domain\Vet-Domain.csproj" />
+    <ProjectReference Include="..\Vet-Infrastructure\Vet-Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

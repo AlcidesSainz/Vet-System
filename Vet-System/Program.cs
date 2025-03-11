@@ -8,6 +8,9 @@ using Vet_Infrastructure.Data;
 using Vet_Infrastructure.Services.Implementation;
 using Vet_Infrastructure.Services.Interfaces;
 using Vet_Application.Resources;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +35,39 @@ builder.Services.AddSingleton(provider => new MapperConfiguration(config =>
     config.AddProfile(new AutoMapperProfiles(geometryFactory));
 }
  ).CreateMapper());
+
+builder.Services.AddIdentityCore<IdentityUser>(IdentityUser =>
+{
+    IdentityUser.Password.RequireDigit = true;
+    IdentityUser.Password.RequireLowercase = true;
+    IdentityUser.Password.RequireNonAlphanumeric = true;
+    IdentityUser.Password.RequireUppercase = true;
+    IdentityUser.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+builder.Services.AddScoped<UserManager<IdentityUser>>();
+builder.Services.AddScoped<SignInManager<IdentityUser>>();
+
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+    {
+        options.MapInboundClaims = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTkey"]!)),
+            ClockSkew = TimeSpan.Zero
+        };
+    }
+);
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("IsAdmin", policy => policy.RequireClaim("Iadmin"));
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer("name=DefaultConnection", sqlServer =>

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Vet_Application.DTOs.Request;
@@ -14,6 +16,8 @@ namespace Vet_System.Controllers
 {
     [Route("api/veterinarian")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
+
     public class VeterinarianController : CustomBaseController
     {
         private readonly ApplicationDbContext applicationDbContext;

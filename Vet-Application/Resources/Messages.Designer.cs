@@ -61,6 +61,15 @@ namespace Vet_Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid login attempt.
+        /// </summary>
+        public static string ERROR_WRONG_LOGIN {
+            get {
+                return ResourceManager.GetString("ERROR_WRONG_LOGIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vet-System.
         /// </summary>
         public static string TEXT_API_NAME {

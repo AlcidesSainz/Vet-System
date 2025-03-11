@@ -58,7 +58,7 @@ namespace Vet_System.Controllers.Base
         //Get by id with include
         protected async Task<ActionResult<TDTO>> Get<TEntity, TDTO>(
             int id,
-            Func<IQueryable<TEntity>, IQueryable<TEntity>> include = null)
+            Func<IQueryable<TEntity>, IQueryable<TEntity>> include = null!)
             where TEntity : class, IId
             where TDTO : IId
         {
