@@ -1,11 +1,14 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using Vet_Application.Mapper;
 using Vet_Infrastructure.Data;
 using Vet_Infrastructure.Services.Implementation;
 using Vet_Infrastructure.Services.Interfaces;
+using Vet_Application.Resources;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +17,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton(provider => new MapperConfiguration(config=>
+builder.Services.AddLocalization(opts => opts.ResourcesPath = "");
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = Messages.TEXT_API_NAME,
+        Version = "v1",
+    });
+});
+builder.Services.AddSingleton(provider => new MapperConfiguration(config =>
 {
     var geometryFactory = provider.GetRequiredService<GeometryFactory>();
-    config.AddProfile(new AutoMapperProfiles(geometryFactory)); 
+    config.AddProfile(new AutoMapperProfiles(geometryFactory));
 }
  ).CreateMapper());
 

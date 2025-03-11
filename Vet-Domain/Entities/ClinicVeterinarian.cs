@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using Vet_Domain.Interfaces;
+﻿using Vet_Domain.Interfaces;
 
 namespace Vet_Domain.Entities
 {
