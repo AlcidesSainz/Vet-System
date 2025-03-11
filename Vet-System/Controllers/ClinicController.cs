@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ namespace Vet_System.Controllers
 {
     [ApiController]
     [Route("api/clinic")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Policy = "IsAdmin")]
     public class ClinicController : CustomBaseController
     {
         private readonly IOutputCacheStore outputCacheStore;

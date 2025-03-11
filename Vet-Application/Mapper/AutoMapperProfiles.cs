@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using NetTopologySuite.Geometries;
 using Vet_Application.DTOs.Request;
 using Vet_Application.DTOs.Response;
@@ -14,7 +15,15 @@ namespace Vet_Application.Mapper
             ConfigureMappingClinic(geometryFactory);
             ConfigureMappingVeterinarian();
             ConfigureMappingClinicVeterinarian(geometryFactory);
+            ConfigureMappingUsers();
         }
+        #region ConfigureMappingUsers
+        private void ConfigureMappingUsers()
+        {
+            CreateMap<IdentityUser, UserResponseDTO>();
+        }
+        #endregion
+
         #region ConfigureMappingClinicVeterinarian
         private void ConfigureMappingClinicVeterinarian(GeometryFactory geometryFactory)
         {
