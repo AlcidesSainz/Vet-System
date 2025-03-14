@@ -16,7 +16,7 @@ namespace Vet_System.Controllers
 {
     [Route("api/veterinarian")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
 
     public class VeterinarianController : CustomBaseController
     {

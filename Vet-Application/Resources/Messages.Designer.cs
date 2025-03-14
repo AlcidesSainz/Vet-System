@@ -86,5 +86,14 @@ namespace Vet_Application.Resources {
                 return ResourceManager.GetString("TEXT_MY_EMAIL", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alcides Sainz.
+        /// </summary>
+        public static string TEXT_MY_NAME {
+            get {
+                return ResourceManager.GetString("TEXT_MY_NAME", resourceCulture);
+            }
+        }
     }
 }

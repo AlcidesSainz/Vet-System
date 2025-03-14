@@ -126,4 +126,7 @@
   <data name="TEXT_MY_EMAIL" xml:space="preserve">
     <value>alcidessainz99@gmail.com</value>
   </data>
+  <data name="TEXT_MY_NAME" xml:space="preserve">
+    <value>Alcides Sainz</value>
+  </data>
 </root>

@@ -27,7 +27,13 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = Messages.TEXT_API_NAME,
         Version = "v1",
+        Contact = new OpenApiContact
+        {
+            Email = Messages.TEXT_MY_EMAIL,
+            Name = Messages.TEXT_MY_NAME,
+        }
     });
+
 });
 builder.Services.AddSingleton(provider => new MapperConfiguration(config =>
 {

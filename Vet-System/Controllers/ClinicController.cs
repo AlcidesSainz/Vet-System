@@ -17,7 +17,7 @@ namespace Vet_System.Controllers
 {
     [ApiController]
     [Route("api/clinic")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Policy = "IsAdmin")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Policy = "IsAdmin")]
     public class ClinicController : CustomBaseController
     {
         private readonly IOutputCacheStore outputCacheStore;
