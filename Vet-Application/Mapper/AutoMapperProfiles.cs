@@ -16,7 +16,27 @@ namespace Vet_Application.Mapper
             ConfigureMappingVeterinarian();
             ConfigureMappingClinicVeterinarian(geometryFactory);
             ConfigureMappingUsers();
+            ConfigureVeterinarianSpecialty();
+            ConfigureSpecialty();
         }
+        #region Specialty
+        private void ConfigureSpecialty()
+        {
+            CreateMap<Specialty, SpecialtyResponseDTO>();
+            CreateMap<SpecialtyRequestDTO, Specialty>();
+            CreateMap<SpecialtyUpdateRequestDTO, Specialty>();
+        }
+        #endregion
+
+        #region ConfigureVeterinarianSpecialty
+        private void ConfigureVeterinarianSpecialty()
+        {
+            CreateMap<VeterinarianSpecialty, VeterinarianSpecialtyResponseDTO>();
+            CreateMap<VeterinarianSpecialtyRequestDTO, VeterinarianSpecialty>();
+            CreateMap<VeterinarianSpecialtyUpdateRequestDTO, VeterinarianSpecialty>();
+        }
+        #endregion
+
         #region ConfigureMappingUsers
         private void ConfigureMappingUsers()
         {
