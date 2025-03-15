@@ -6,8 +6,8 @@ namespace Vet_Application.DTOs.Request
     public class ClinicUpdateRequestDTO
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "The field {0} is required")]
-        [StringLength(100, ErrorMessage = "The {0} must have {1} characters or less")]
+        [Required]
+        [StringLength(100)]
         public required string Name { get; set; }
         [Phone]
         public required string Phone { get; set; }

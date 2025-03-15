@@ -18,7 +18,17 @@ namespace Vet_Application.Mapper
             ConfigureMappingUsers();
             ConfigureVeterinarianSpecialty();
             ConfigureSpecialty();
+            ConfigureMappingOwner();
         }
+        #region ConfigureMappingOwner
+        private void ConfigureMappingOwner()
+        {
+            CreateMap<Owner, OwnerResponseDTO>();
+            CreateMap<OwnerRequestDTO, Owner>().ForMember(dest => dest.RegistrationDate, opt => opt.MapFrom(src => DateTime.UtcNow));
+            CreateMap<OwnerUpdateRequestDTO, Owner>().ForMember(dest => dest.RegistrationDate, opt => opt.Ignore());
+        }
+        #endregion
+
         #region Specialty
         private void ConfigureSpecialty()
         {
