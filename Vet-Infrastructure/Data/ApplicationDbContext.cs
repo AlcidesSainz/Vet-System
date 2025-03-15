@@ -23,6 +23,18 @@ namespace Vet_Infrastructure.Data
                 .IsUnique();
             #endregion
 
+            #region Owner
+            modelBuilder.Entity<Owner>()
+                .HasIndex(v => v.Email)
+                .IsUnique();
+            modelBuilder.Entity<Owner>()
+                .HasIndex(v => v.Phone)
+                .IsUnique();
+            modelBuilder.Entity<Owner>()
+                .HasIndex(v => v.Name)
+                .IsUnique();
+            #endregion
+
             #region Veterinarian
             modelBuilder.Entity<Veterinarian>()
                 .HasIndex(v => v.Email)
@@ -110,6 +122,7 @@ namespace Vet_Infrastructure.Data
         public DbSet<ClinicVeterinarian> ClinicVeterinarians { get; set; }
         public DbSet<Specialty> Specialties { get; set; }
         public DbSet<VeterinarianSpecialty> VeterinarianSpecialties { get; set; }
+        public DbSet<Owner> Owners { get; set; }
 
         #endregion
 
