@@ -21,6 +21,8 @@ namespace Vet_Domain.Entities
         [Unicode(false)]
         public string UrlImage { get; set; }
         public List<ClinicVeterinarian> ClinicVeterinarians { get; set; } = new();
+        public List<VeterinarianSpecialty> VeterinarianSpecialties { get; set; } = new List<VeterinarianSpecialty>();
+
 
     }
 }
