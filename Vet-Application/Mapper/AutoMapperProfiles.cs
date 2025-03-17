@@ -19,7 +19,40 @@ namespace Vet_Application.Mapper
             ConfigureVeterinarianSpecialty();
             ConfigureSpecialty();
             ConfigureMappingOwner();
+            ConfigureMappingBreed();
+            ConfigureMappingSpecies();
+            ConfigureMappingPet();
         }
+        #region ConfigureMappingPet
+        private void ConfigureMappingPet()
+        {
+            CreateMap<Pet, PetResponseDTO>()
+                .ForMember(dest => dest.BreedName, opt => opt.MapFrom(src => src.Breed.Name))
+                .ForMember(dest => dest.SpeciesName, opt => opt.MapFrom(src => src.Breed.Species.Name))
+                .ForMember(dest=>dest.OwnerName,opt=>opt.MapFrom(src=>src.Owner.Name));
+            CreateMap<PetRequestDTO, Pet>();
+            CreateMap<PetUpdateRequestDTO, Pet>();
+        }
+        #endregion
+
+        #region ConfigureMappingSpecies
+        private void ConfigureMappingSpecies()
+        {
+            CreateMap<Species, SpeciesResponseDTO>();
+            CreateMap<SpeciesRequestDTO, Species>();
+            CreateMap<SpeciesUpdateRequestDTO, Species>();
+        }
+        #endregion
+
+        #region ConfigureMappingBreed
+        private void ConfigureMappingBreed()
+        {
+            CreateMap<Breed, BreedResponseDTO>();
+            CreateMap<BreedRequestDTO, Breed>();
+            CreateMap<BreedUpdateRequestDTO, Breed>();
+        }
+        #endregion
+
         #region ConfigureMappingOwner
         private void ConfigureMappingOwner()
         {
