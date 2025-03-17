@@ -17,6 +17,8 @@ namespace Vet_Domain.Entities
         [EmailAddress]
         public string Email { get; set; }
         public DateTime RegistrationDate { get; set; }
-        
+
+        public List<Pet> Pets { get; set; } = new List<Pet>();
+
     }
 }
