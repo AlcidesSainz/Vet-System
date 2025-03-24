@@ -11,5 +11,8 @@ namespace Vet_Application.DTOs.Response
         public required string Phone { get; set; }
         public string? Email { get; set; }
         public DateTime RegistrationDate { get; set; }
+        public string? IdentificationNumber { get; set; }
+        public bool IsDeleted { get; set; }
+
     }
 }

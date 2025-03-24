@@ -163,6 +163,7 @@ namespace Vet_System.Controllers.Base
             await outputCacheStore.EvictByTagAsync(cacheTag, default);
             return NoContent();
         }
+
         private void SetFileUrl<TEntity>(TEntity entity, string url)
             where TEntity : class
         {

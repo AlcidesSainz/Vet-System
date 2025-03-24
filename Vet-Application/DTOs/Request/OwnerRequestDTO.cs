@@ -14,5 +14,8 @@ namespace Vet_Application.DTOs.Request
         public required string Phone { get; set; }
         [EmailAddress]
         public string? Email { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string? IdentificationNumber { get; set; }
     }
 }

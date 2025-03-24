@@ -33,6 +33,9 @@ namespace Vet_Infrastructure.Data
             modelBuilder.Entity<Owner>()
                 .HasIndex(v => v.Name)
                 .IsUnique();
+            modelBuilder.Entity<Owner>()
+                .HasIndex(v => v.IdentificationNumber)
+                .IsUnique();
             #endregion
 
             #region Veterinarian
