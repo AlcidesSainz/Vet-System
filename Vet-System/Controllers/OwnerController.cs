@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.EntityFrameworkCore;
+using System.Formats.Asn1;
 using Vet_Application.DTOs.Request;
 using Vet_Application.DTOs.Response;
+using Vet_Application.Utilities;
 using Vet_Domain.Entities;
+using Vet_Domain.Interfaces;
 using Vet_Infrastructure.Data;
 using Vet_Infrastructure.Services.Interfaces;
 using Vet_System.Controllers.Base;
@@ -33,12 +38,37 @@ namespace Vet_System.Controllers
             this.fileStorage = fileStorage;
         }
 
-        [HttpGet]
+        [HttpGet("all-owners")]
         [OutputCache(Tags = [cacheTag])]
-        public async Task<List<OwnerResponseDTO>> Get([FromQuery] PaginationResponseDTO paginationResponseDTO)
+        public async Task<List<OwnerResponseDTO>> GetAllOwners([FromQuery] PaginationResponseDTO paginationResponseDTO)
         {
             return await Get<Owner, OwnerResponseDTO>(paginationResponseDTO, c => c.Id);
         }
+        [HttpGet("actived-owners")]
+        [OutputCache(Tags = [cacheTag])]
+        public async Task<List<OwnerResponseDTO>> GetActivedOwners([FromQuery]PaginationResponseDTO paginationResponseDTO)
+        {
+            var queryable = applicationDbContext.Set<Owner>().AsQueryable();
+            await HttpContextExtensions.AddPaginationHeader(HttpContext, queryable);
+            return await queryable
+                .Where(o=>!o.IsDeleted)
+                .OrderBy(o=>o.Id)
+                .Paginate(paginationResponseDTO)
+                .ProjectTo<OwnerResponseDTO>(mapper.ConfigurationProvider).ToListAsync();
+        }
+        [HttpGet("deleted-owners")]
+        [OutputCache(Tags = [cacheTag])]
+        public async Task<List<OwnerResponseDTO>> GetDelectedOwners([FromQuery] PaginationResponseDTO paginationResponseDTO)
+        {
+            var queryable = applicationDbContext.Set<Owner>().AsQueryable();
+            await HttpContextExtensions.AddPaginationHeader(HttpContext, queryable);
+            return await queryable
+                .Where(o => o.IsDeleted)
+                .OrderBy(o => o.Id)
+                .Paginate(paginationResponseDTO)
+                .ProjectTo<OwnerResponseDTO>(mapper.ConfigurationProvider).ToListAsync();
+        }
+
         [HttpGet("{id}", Name = "GetOwnerById")]
         [OutputCache(Tags = [cacheTag])]
         public async Task<ActionResult<OwnerResponseDTO>> Get(int id)
@@ -61,6 +91,34 @@ namespace Vet_System.Controllers
             await applicationDbContext.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync(cacheTag, default);
             return NoContent();
+        }
+
+        [HttpPatch("{id}/soft-recover")] 
+        public async Task<IActionResult> SoftRecover(int id)
+        {
+            var owner = await applicationDbContext.Owners.FirstOrDefaultAsync(o => o.Id == id);
+            if (owner is null)
+            {
+                return NotFound();
+            }
+            owner.IsDeleted = false; 
+            await applicationDbContext.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync(cacheTag, default);
+            return NoContent(); 
+        }
+
+        [HttpDelete("{id}/soft-delete")]
+        public async Task<IActionResult>SoftDelete(int id)
+        {
+            var owner = await applicationDbContext.Owners.FirstOrDefaultAsync(o => o.Id == id);
+            if (owner is null)
+            {
+                return NotFound(); 
+            }
+            owner.IsDeleted = true; 
+            await applicationDbContext.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync(cacheTag, default);
+            return NoContent(); 
         }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
